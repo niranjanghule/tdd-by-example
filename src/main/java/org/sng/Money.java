@@ -1,6 +1,6 @@
 package org.sng;
 
-public class Money {
+public class Money implements Expression {
     protected int amount;
 
     public Money(int amount, String currency) {
@@ -39,7 +39,12 @@ public class Money {
                 '}';
     }
 
-    public Money plus(Money addend) {
-        return new Money(this.amount + addend.amount, currency);
+    public Expression plus(Money addend) {
+        return new Sum(this, addend);
+    }
+
+    @Override
+    public Money reduce(String to) {
+        return this;
     }
 }

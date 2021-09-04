@@ -34,8 +34,34 @@ public class MultiCurrencyMoneyTest {
 
     @Test
     public void testSimpleAddition(){
-        assertEquals(Money.dollar(10), Money.dollar(5).plus(Money.dollar(5)));
-        assertEquals(Money.dollar(11), Money.dollar(5).plus(Money.dollar(6)));
+        Money five = Money.dollar(5);
+        Expression sum = five.plus(five);
+        Bank bank = new Bank();
+        assertEquals(Money.dollar(10), bank.reduce(sum,"USD"));
+    }
+
+    @Test
+    public void testPlusReturnsSum(){
+        Money five = Money.dollar(5);
+        Expression result = five.plus(five);
+        Sum sum = (Sum)result;
+        assertEquals(five, sum.augend);
+        assertEquals(five, sum.addend);
+    }
+
+    @Test
+    public void testReduceSum(){
+        Expression sum  = new Sum(Money.dollar(5), Money.dollar(4));
+        Bank bank = new Bank();
+        assertEquals(Money.dollar(9), bank.reduce(sum, "USD"));
+    }
+
+    @Test
+    public void testReduceMoney(){
+        Bank bank = new Bank();
+        Money result = bank.reduce(Money.dollar(1), "USD");
+        assertEquals(Money.dollar(1), result);
+
     }
 
 }
