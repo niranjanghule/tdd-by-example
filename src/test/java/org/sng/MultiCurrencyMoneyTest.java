@@ -64,4 +64,22 @@ public class MultiCurrencyMoneyTest {
 
     }
 
+    @Test
+    public void testReduceWithDifferentCurrencies(){
+        Bank bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        Money result = bank.reduce(Money.franc(2),"USD");
+        assertEquals(Money.dollar(1),result);
+    }
+
+    @Test
+    public void testArraysEquals(){
+        assertArrayEquals(new Object[]{"abc"}, new Object[]{"abc"});//This passes , i think due to new jvm implementation
+    }
+
+    @Test
+    public void testIdentityRate(){
+       assertEquals(1, new Bank().rate("USD", "USD"));
+    }
+
 }
